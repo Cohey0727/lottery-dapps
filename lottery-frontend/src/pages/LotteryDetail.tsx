@@ -14,11 +14,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { Column, ContainedButton } from "components/atoms";
 import { MainLayout } from "components/molecules";
-import { LotteryCard } from "components/organisms";
-import { BigNumber, Contract, ethers } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { GetLotteriesResult, getLotteryContract, Merge, useLotteryFactory, withContract, withWeb3 } from "utils";
+import { useParams } from "react-router-dom";
+import { getLotteryContract, Merge, withContract, withWeb3 } from "utils";
 import { createStyles } from "utils";
 
 type BaseProps = {};
@@ -69,9 +68,12 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
   const handleBuyTicket = useCallback(async () => {
     if (!lottery) return;
     setSubmitting(true);
-    const options = { value: 1 };
-    await lottery.buyTicket(options);
-    setSubmitting(false);
+    try {
+      const options = { value: 1 };
+      await lottery.buyTicket(options);
+    } finally {
+      setSubmitting(false);
+    }
   }, [lottery]);
 
   if (!lotteryInfo)
@@ -130,7 +132,7 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
             </Table>
           </AccordionDetails>
         </Accordion>
-        <ContainedButton onClick={handleBuyTicket} sx={styles.button} color="secondary">
+        <ContainedButton disabled={submitting} onClick={handleBuyTicket} sx={styles.button} color="secondary">
           購入
         </ContainedButton>
       </Column>
