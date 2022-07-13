@@ -15,11 +15,25 @@ contract LotteryFactory {
     address lotteryAddress = address(newLottery);
     lotteries.push(lotteryAddress);
     lotteryNames[lotteryAddress] = name;
-    lotteryNames[lotteryAddress] = imageUrl;
+    lotteryImages[lotteryAddress] = imageUrl;
   }
 
-  function getLotteries() public view returns (address[] memory) {
-    return lotteries;
+  function getLotteries()
+    public
+    view
+    returns (
+      address[] memory,
+      string[] memory,
+      string[] memory
+    )
+  {
+    string[] memory _lotteryNames = new string[](lotteries.length);
+    string[] memory _lotteryImages = new string[](lotteries.length);
+    for (uint256 i = 0; i < lotteries.length; i++) {
+      _lotteryNames[i] = lotteryNames[lotteries[i]];
+      _lotteryImages[i] = lotteryImages[lotteries[i]];
+    }
+    return (lotteries, _lotteryNames, _lotteryImages);
   }
 }
 
