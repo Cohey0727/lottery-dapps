@@ -5,6 +5,7 @@ import { MainLayout } from "components/molecules";
 import { LotteryCard } from "components/organisms";
 import { primaryColor } from "configs/theme";
 import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createStyles, GetLotteriesResult, Merge, useAccount, useLotteryFactory, withContract, withWeb3 } from "utils";
 
 type BaseProps = {};
@@ -18,6 +19,7 @@ type Lottery = {
 
 const Lotteries: React.FC<LotteriesProps> = (props) => {
   const contract = useLotteryFactory();
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({ name: "", imageUrl: "" });
   const [submitting, setSubmitting] = useState(false);
   const [deployedLotteries, setDeployedLotteries] = useState<Lottery[]>([]);
@@ -73,7 +75,12 @@ const Lotteries: React.FC<LotteriesProps> = (props) => {
             作成済み一覧
           </Typography>
           {deployedLotteries.map((lottery) => (
-            <LotteryCard {...lottery} sx={styles.card} />
+            <LotteryCard
+              key={lottery.address}
+              {...lottery}
+              sx={styles.card}
+              onClick={() => navigate(`/lotteries/${lottery.address}`)}
+            />
           ))}
         </Column>
       </Row>

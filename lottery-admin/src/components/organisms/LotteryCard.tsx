@@ -10,6 +10,7 @@ type OwnProps = {
   address: string;
   imageUrl: string;
   name: string;
+  onClick?: () => void;
 };
 export type LotteryCardProps = Merge<BaseProps, OwnProps>;
 
@@ -29,6 +30,7 @@ const LotteryCard: React.FC<LotteryCardProps> = (props) => {
 const styles = createStyles({
   root: {
     backgroundColor: ({ palette }) => palette.secondary.main,
+    cursor: "pointer",
   },
   image: {
     width: "80%",
