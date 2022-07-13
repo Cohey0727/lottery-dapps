@@ -5,6 +5,7 @@ import { MainLayout } from "components/molecules";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import {
+  createStyles,
   GetLotteriesResult,
   getLotteryContract,
   Merge,
@@ -64,7 +65,11 @@ const Assets: React.FC<AssetsProps> = (props) => {
               </Typography>
               <Column>
                 {ticketIds.map((ticketId) => {
-                  return <Typography color="white">{("000000000000" + ticketId).slice(-8)}</Typography>;
+                  return (
+                    <Column sx={{ ...styles.ticket, backgroundImage: `url("${lottery.imageUrl}")` }}>
+                      <Typography color="white">{("000000000000" + ticketId).slice(-8)}</Typography>
+                    </Column>
+                  );
                 })}
               </Column>
             </Column>
@@ -74,5 +79,15 @@ const Assets: React.FC<AssetsProps> = (props) => {
     </MainLayout>
   );
 };
+
+const styles = createStyles({
+  ticket: {
+    my: 1,
+    height: "20vh",
+    padding: 4,
+    backgroundPosition: "center",
+    backgroundSize: "auto 100%",
+  },
+});
 
 export default withWeb3(withContract(Assets));
