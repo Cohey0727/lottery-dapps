@@ -17,12 +17,12 @@ type Lottery = {
 };
 
 const Lotteries: React.FC<LotteriesProps> = (props) => {
-  const contract = useLotteryFactory();
+  const factory = useLotteryFactory();
   const navigate = useNavigate();
   const [deployedLotteries, setDeployedLotteries] = useState<Lottery[]>([]);
 
   useEffect(() => {
-    const promise = contract.getLotteries();
+    const promise = factory.getLotteries();
     promise.then(([addresses, names, imageUrls]: GetLotteriesResult) => {
       const lotteries = addresses.map((address, index) => ({
         address,

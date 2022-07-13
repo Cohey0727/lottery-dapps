@@ -55,6 +55,7 @@ contract Lottery {
 
   mapping(string => uint256) public winnerPrizeRates;
   string[] public winnerPrizes;
+  mapping(string => address) public winnerPrizeResults;
 
   address[] public ticketHolders;
   mapping(address => uint256[]) public ticketsByAddress;
@@ -191,7 +192,9 @@ contract Lottery {
       uint256 prizeRate = winnerPrizeRates[winnerPrize];
       uint256 prizeAmount = (totalBalance * prizeRate) / _totalRate;
       uint256 index = random() % ticketHolders.length;
-      payable(ticketHolders[index]).transfer(prizeAmount);
+      address winner = ticketHolders[index];
+      winnerPrizeResults[winnerPrize] = winner;
+      payable(winner).transfer(prizeAmount);
     }
     if (address(this).balance > 0) {
       // 端数はmanagerに戻す。

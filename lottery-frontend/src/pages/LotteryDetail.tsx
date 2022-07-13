@@ -17,8 +17,7 @@ import { MainLayout } from "components/molecules";
 import { BigNumber, Contract } from "ethers";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getLotteryContract, Merge, withContract, withWeb3 } from "utils";
-import { createStyles } from "utils";
+import { createStyles, getLotteryContract, Merge, withContract, withWeb3 } from "utils";
 
 type BaseProps = {};
 type OwnProps = {};

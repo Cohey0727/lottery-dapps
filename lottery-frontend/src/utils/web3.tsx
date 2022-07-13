@@ -9,6 +9,8 @@ export const connectWallet = async () => {
   accountVar(accounts.length > 0 ? accounts[0] : null);
 };
 
+export const useAccount = () => useReactiveVar(accountVar)!;
+
 export const withWeb3 = <P,>(
   Component: React.ComponentType<P>,
   UnConnectedComponent: React.ComponentType<{}> = () => <></>
