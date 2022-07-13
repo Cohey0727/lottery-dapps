@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@m
 import TextField from "@mui/material/TextField";
 import { Column, ContainedButton, Row } from "components/atoms";
 import { MainLayout } from "components/molecules";
-import { LotteryCard } from "components/organisms";
 import { primaryColor } from "configs/theme";
 import { BigNumber, Contract } from "ethers";
 import React, { useCallback, useEffect, useState } from "react";
@@ -69,6 +68,20 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
     setSubmitting(false);
   }, [contract]);
 
+  const handleFinish = useCallback(async () => {
+    if (contract === undefined) return;
+    setSubmitting(true);
+    await contract.finish();
+    setSubmitting(false);
+  }, [contract]);
+
+  const handleDistributePrizes = useCallback(async () => {
+    if (contract === undefined) return;
+    setSubmitting(true);
+    await contract.distributePrizes();
+    setSubmitting(false);
+  }, [contract]);
+
   const totalRate = lotteryInfo?.winnerPrizes.reduce((acc, cur) => acc + cur.rate.toNumber(), 0) ?? 1;
   return (
     <MainLayout>
@@ -96,9 +109,21 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
           >
             賞の追加
           </ContainedButton>
-          <ContainedButton sx={styles.button} onClick={handleStart}>
-            開始
-          </ContainedButton>
+          {lotteryInfo?.status === 0 && (
+            <ContainedButton sx={styles.button} onClick={handleStart}>
+              開始
+            </ContainedButton>
+          )}
+          {lotteryInfo?.status === 1 && (
+            <ContainedButton sx={styles.button} onClick={handleFinish}>
+              終了
+            </ContainedButton>
+          )}
+          {lotteryInfo?.status === 2 && (
+            <ContainedButton sx={styles.button} onClick={handleDistributePrizes}>
+              配当金の分配
+            </ContainedButton>
+          )}
         </Column>
         {lotteryInfo && (
           <Column sx={styles.body}>
