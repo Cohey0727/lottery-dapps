@@ -9,7 +9,7 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { Column, Expanded } from "components/atoms";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon";
-import { connectWallet, createUseStyles } from "utils";
+import { connectWallet, createUseStyles, initContract } from "utils";
 
 type BottomAction = {
   Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
@@ -48,6 +48,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     connectWallet();
+    initContract();
   }, []);
 
   const styles = useStyles({ innerHeight: window.innerHeight });
@@ -66,13 +67,7 @@ const Home: React.FC = () => {
         }}
       >
         {bottomActions.map(({ label, Icon }) => (
-          <BottomNavigationAction
-            key={label}
-            color="red"
-            sx={styles.navigation}
-            label={label}
-            icon={<Icon />}
-          />
+          <BottomNavigationAction key={label} color="red" sx={styles.navigation} label={label} icon={<Icon />} />
         ))}
       </BottomNavigation>
     </Column>

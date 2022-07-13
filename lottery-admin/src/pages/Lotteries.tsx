@@ -106,7 +106,7 @@ const styles = createStyles({
     my: 1,
   },
   card: {
-    my: 1,
+    my: 2,
   },
 });
 

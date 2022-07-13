@@ -2,6 +2,7 @@ import { RouteObject } from "react-router-dom";
 import Assets from "./Assets";
 import Home from "./Home";
 import Lotteries from "./Lotteries";
+import LotteryDetail from "./LotteryDetail";
 
 const routes: RouteObject[] = [
   {
@@ -11,6 +12,11 @@ const routes: RouteObject[] = [
       {
         element: <Lotteries />,
         path: "/lotteries",
+        children: [],
+      },
+      {
+        element: <LotteryDetail />,
+        path: "/lotteries/:lotteryId",
         children: [],
       },
       {

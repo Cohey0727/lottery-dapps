@@ -1,23 +1,48 @@
 import { Column } from "components/atoms";
 import { MainLayout } from "components/molecules";
 import { LotteryCard } from "components/organisms";
-import React from "react";
-import { Merge } from "utils";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GetLotteriesResult, Merge, useLotteryFactory, withContract } from "utils";
 import { createStyles } from "utils";
 
 type BaseProps = {};
 type OwnProps = {};
 export type LotteriesProps = Merge<BaseProps, OwnProps>;
 
+type Lottery = {
+  address: string;
+  name: string;
+  imageUrl: string;
+};
+
 const Lotteries: React.FC<LotteriesProps> = (props) => {
+  const contract = useLotteryFactory();
+  const navigate = useNavigate();
+  const [deployedLotteries, setDeployedLotteries] = useState<Lottery[]>([]);
+
+  useEffect(() => {
+    const promise = contract.getLotteries();
+    promise.then(([addresses, names, imageUrls]: GetLotteriesResult) => {
+      const lotteries = addresses.map((address, index) => ({
+        address,
+        name: names[index],
+        imageUrl: imageUrls[index],
+      }));
+      setDeployedLotteries(lotteries);
+    });
+  }, []);
   return (
     <MainLayout title={"宝くじ一覧"}>
       <Column sx={styles.inner}>
-        {Array(10)
-          .fill(null)
-          .map((_, index) => (
-            <LotteryCard key={index} sx={styles.card} />
-          ))}
+        {deployedLotteries.map((lottery) => (
+          <LotteryCard
+            key={lottery.address}
+            {...lottery}
+            sx={styles.card}
+            onClick={() => navigate(`/lotteries/${lottery.address}`)}
+          />
+        ))}
       </Column>
     </MainLayout>
   );
@@ -33,4 +58,4 @@ const styles = createStyles({
   },
 });
 
-export default Lotteries;
+export default withContract(Lotteries);
