@@ -95,7 +95,7 @@ const useStyles = createUseStyles(({ innerHeight }: StyleProps) => ({
   root: {
     height: innerHeight,
     overflow: "hidden",
-    backgroundColor: ({ palette }) => palette.primary.main,
+    backgroundColor: ({ palette }) => palette.primary[200],
   },
   body: {
     overflow: "hidden",
@@ -103,6 +103,7 @@ const useStyles = createUseStyles(({ innerHeight }: StyleProps) => ({
   sidebar: {
     flex: "0 0 auto",
     boxShadow: "0px 8px 16px -2px rgba(10,10,10,0.1), 0px 0px 0px 1px rgba(10,10,10,0.02)",
+    backgroundColor: ({ palette }) => palette.primary.main,
   },
   navigation: {
     backgroundColor: ({ palette }) => palette.primary.main,

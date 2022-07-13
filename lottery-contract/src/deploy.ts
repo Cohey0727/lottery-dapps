@@ -2,8 +2,8 @@ import HDWalletProvider from "@truffle/hdwallet-provider";
 import Web3 from "web3";
 import compileResult from "./compile";
 
-const { Lottery } = compileResult;
-const { evm, abi } = Lottery;
+const { LotteryFactory } = compileResult;
+const { evm, abi } = LotteryFactory;
 const { bytecode } = evm;
 
 const mnemonicPhases = process.env.MNEMONIC_PHASES!;
@@ -18,7 +18,7 @@ const deploy = async () => {
   console.log("Attempting to deploy from account", accounts[0]);
   const result = await new web3.eth.Contract(abi)
     .deploy({ data: bytecode.object, arguments: [] })
-    .send({ from: accounts[0], gas: 1000000 });
+    .send({ from: accounts[0], gas: 30000000 });
 
   console.log(JSON.stringify(abi));
   console.log("Contract deploy to ", result.options.address);

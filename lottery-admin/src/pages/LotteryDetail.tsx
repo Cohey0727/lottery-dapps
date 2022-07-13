@@ -5,7 +5,8 @@ import { MainLayout } from "components/molecules";
 import { LotteryCard } from "components/organisms";
 import { primaryColor } from "configs/theme";
 import React, { useCallback, useEffect, useState } from "react";
-import { createStyles, GetLotteriesResult, Merge, useAccount, useLotteryFactory, withContract, withWeb3 } from "utils";
+import { useParams } from "react-router-dom";
+import { createStyles, GetLotteriesResult, Merge, useLotteryFactory, withContract, withWeb3 } from "utils";
 
 type BaseProps = {};
 type OwnProps = {};
@@ -16,7 +17,8 @@ type Lottery = {
   imageUrl: string;
 };
 
-const Lotteries: React.FC<LotteriesProps> = (props) => {
+const LotteryDetail: React.FC<LotteriesProps> = (props) => {
+  const { lotteryId } = useParams<{ lotteryId: string }>();
   const contract = useLotteryFactory();
   const [formValues, setFormValues] = useState({ name: "", imageUrl: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -103,4 +105,4 @@ const styles = createStyles({
   },
 });
 
-export default withWeb3(withContract(Lotteries));
+export default withWeb3(withContract(LotteryDetail));

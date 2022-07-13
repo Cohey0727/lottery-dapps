@@ -6,25 +6,19 @@ import { createStyles, Merge } from "utils";
 import { Column, Row } from "components/atoms";
 
 type BaseProps = Omit<CardProps, "variant">;
-type OwnProps = {};
+type OwnProps = {
+  address: string;
+  imageUrl: string;
+  name: string;
+};
 export type LotteryCardProps = Merge<BaseProps, OwnProps>;
 
 const LotteryCard: React.FC<LotteryCardProps> = (props) => {
-  const { sx, ...cardProps } = props;
+  const { address, imageUrl, name, sx, ...cardProps } = props;
 
   return (
-    <Card
-      elevation={8}
-      component={Row}
-      sx={{ ...styles.root, ...sx }}
-      {...cardProps}
-    >
-      <CardMedia
-        component="img"
-        sx={styles.image}
-        image="https://www.takarakujinet.co.jp/data/image/news/type055.jpg?20220630125815"
-        alt="Live from space album cover"
-      />
+    <Card elevation={8} component={Row} sx={{ ...styles.root, ...sx }} {...cardProps}>
+      <CardMedia component="img" sx={styles.image} image={imageUrl} alt={name} />
       <Column sx={styles.iconContainer}>
         <PlayArrowIcon sx={styles.icon} />
       </Column>
