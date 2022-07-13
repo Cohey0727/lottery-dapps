@@ -69,6 +69,7 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
     setSubmitting(false);
   }, [contract]);
 
+  const totalRate = lotteryInfo?.winnerPrizes.reduce((acc, cur) => acc + cur.rate.toNumber(), 0) ?? 1;
   return (
     <MainLayout>
       <Row>
@@ -83,7 +84,7 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
             onChange={(e) => setFormValues((current) => ({ ...current, name: e.target.value }))}
           />
           <TextField
-            label="割合"
+            label="比率"
             variant="outlined"
             sx={styles.input}
             onChange={(e) => setFormValues((current) => ({ ...current, rate: parseInt(e.target.value) }))}
@@ -127,14 +128,16 @@ const LotteryDetail: React.FC<LotteriesProps> = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell>名前</TableCell>
-                  <TableCell>割合</TableCell>
+                  <TableCell>割合%（比率）</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {lotteryInfo.winnerPrizes.map((prize) => (
                   <TableRow key={prize.name}>
                     <TableCell>{prize.name}</TableCell>
-                    <TableCell>{prize.rate.toNumber()}</TableCell>
+                    <TableCell>
+                      {(prize.rate.toNumber() / totalRate) * 100}%（{prize.rate.toNumber()}）
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
